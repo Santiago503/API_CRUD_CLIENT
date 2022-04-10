@@ -13,15 +13,15 @@ namespace APICrudClient.Model
 
         [Required(ErrorMessage = "Country is Required")]
         [StringLength(50, ErrorMessage = "Country length can't be more than 50.")]
-        public int Country { get; set; }
+        public string Country { get; set; }
 
         [Required(ErrorMessage = "City is Required")]
         [StringLength(50, ErrorMessage = "City length can't be more than 50.")]
-        public int City { get; set; }
+        public string City { get; set; }
 
 
         [Required(ErrorMessage = "Address is Required")]
         [StringLength(50, ErrorMessage = "Address length can't be more than 50.")]
-        public int Address { get; set; }
+        public string Address { get; set; }
     }
 }

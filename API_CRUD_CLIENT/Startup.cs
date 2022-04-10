@@ -21,7 +21,7 @@ namespace API_CRUD_CLIENT
         {
             Configuration = configuration;
         }
-
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -31,11 +31,24 @@ namespace API_CRUD_CLIENT
             services.AddDbContext<ApplicationdbContext>(options => 
             options.UseSqlServer(conn));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_CRUD_CLIENT", Version = "v1" });
             });
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +60,8 @@ namespace API_CRUD_CLIENT
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API_CRUD_CLIENT v1"));
             }
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseRouting();
 
